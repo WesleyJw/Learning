@@ -615,7 +615,14 @@ docker run --name=jenkinsa -d jenkins
 #lincando dois containers
 docker run --name=rec --link=jenkinsa:alias-scr -it ubuntu:latest /bin/bash
 ```
+---
 ## Docker compose
+
+Imagine uma aplicação grande, com dezenas de containers para poder executar todas as funcionalidades. Subir todos os containers e configurar cada um é uma tarefa cansativa e muito lenta. Para evitar este desperdício de tempo a docker desenvolveu um orquestrador para organizar esta orquestra (containers) e fazê-la funcionar com sincronia como uma das típcas orquestras italianas. Sendo assim, o docker compose nada mais é do que um orquestrador e tem a função de levantar todos os containers, bem como fazer todas as comunicações e configurações que a aplicação requer, tudo isso em apenas um arquivo, com a extensão de marcação yml.
+
+### Alguns comandos do Docker-compose
+
+
 
 
 
