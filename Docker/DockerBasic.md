@@ -637,10 +637,10 @@ services:
       - ./:/home/work
     ports:
       - 8888:8888
-      
+
   rstudio-server:
     image: wesleyjw/rstudio
-      container_namer: rstudio-datascience
+    container_name: rstudio-datascience
     environment:
       - PASSWORD-password
       - USERID=$(id -u)
