@@ -599,7 +599,6 @@ docker build -t myimage:1.0 .
 #verificar a nova imagem
 docker images
 ```
-
 ---
 
 ## Mais sobre containers
@@ -618,9 +617,85 @@ docker run --name=rec --link=jenkinsa:alias-scr -it ubuntu:latest /bin/bash
 ---
 ## Docker compose
 
-Imagine uma aplicação grande, com dezenas de containers para poder executar todas as funcionalidades. Subir todos os containers e configurar cada um é uma tarefa cansativa e muito lenta. Para evitar este desperdício de tempo a docker desenvolveu um orquestrador para organizar esta orquestra (containers) e fazê-la funcionar com sincronia como uma das típcas orquestras italianas. Sendo assim, o docker compose nada mais é do que um orquestrador e tem a função de levantar todos os containers, bem como fazer todas as comunicações e configurações que a aplicação requer, tudo isso em apenas um arquivo, com a extensão de marcação yml.
+Imagine uma aplicação grande, com dezenas de containers para poder executar todas as funcionalidades. Subir todos os containers e configurar cada um é uma tarefa cansativa e muito lenta. Para evitar este desperdício de tempo a docker desenvolveu um orquestrador para organizar esta orquestra (containers) e fazê-la funcionar com sincronia como uma das típcas orquestras italianas. Sendo assim, o docker compose nada mais é do que um orquestrador e tem a função de levantar todos os containers, bem como fazer todas as comunicações e configurações que a aplicação requer, tudo isso em apenas um arquivo, com o nome *docker-compose* ea extensão de marcação *.yml*. O docker-compose é um programa a parte, você deve instalar primeiro na sua máquina, bem como ele possui seu próprios comandos. 
 
-### Alguns comandos do Docker-compose
+### Arquivo Docker-compose
+
+Vamos conhecer um arquivo docker-compose:
+
+```docker-compose
+version: "3.8"
+
+services:
+  jupyter-service: 
+    image: jupyter/datascience-notebook:4.0.3
+    container_name: jupyter-datascience
+    restart: always
+    environment: 
+      - JUPYTER_TOKEN=password
+    volumes:
+      - ./:/home/work
+    ports:
+      - 8888:8888
+      
+  rstudio-server:
+    image: wesleyjw/rstudio
+      container_namer: rstudio-datascience
+    environment:
+      - PASSWORD-password
+      - USERID=$(id -u)
+      - GROUPID=$(id -g)
+    ports: 
+      - 8787:8787
+    volumes:
+      - ./:/home/rstudio
+
+  postgresDB:
+    image: postgres
+    container_name: pg_container
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: datascience_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+
+  mongo:
+    image: mongo
+    container_name: mongo_container
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./:/ect/mongo
+
+  mongo-express:
+    image: mongo-express
+    container_name: express_container
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/   
+```
+
+A primeira instrução que deve conter no arquivo docker-compose.yml deve ser a versão do docker-compose que vocẽ está utilizando, você identifica isso com a tag **version**
 
 
 
