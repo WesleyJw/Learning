@@ -29,21 +29,27 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: datascience_db
+      POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "15432:5432"
     volumes:
       - ./:/var/lib/postgresql/data
+    networks:
+      - postgresDB-network
 
   pgadmin:
-    container_name: pgadmin4_container
     image: dpage/pgadmin4
+    container_name: pgadmin4_container
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+    depends_on:
+      - postgresDB
+    networks:
+      - postgresDB-network
 
   mongo:
     image: mongo
@@ -65,3 +71,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/ 
+
+networks:
+  postgresDB-network:
+    driver: bridge
