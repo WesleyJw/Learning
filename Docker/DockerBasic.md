@@ -573,17 +573,49 @@ WORKDIR /app
 
 ### Criando um Dockerfile
 
-Vamos criar um **Dockerfile** básico para fundamentar o conhecimento adquirido até aqui. Insira os comandos abaixo no arquivo que você criou  no seu editor com o nome de Dockerfile.
+Vamos criar um **Dockerfile** para trabalharmos com o jupyter em nosso ambiente de data science para fundamentar o conhecimento adquirido até aqui. Insira os comandos abaixo no arquivo que você criou  no seu editor com o nome de Dockerfile.
 
 ```Dockerfile
-FROM debian
+FROM ubuntu:xenial
 
-LABEL maintener="phd.WesleyJW"
+LABEL maintaner="PdD Wesley Lima"
 
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
+    build-essential \
+    byobu \
+    curl \
+    git-core \
+    htop \
+    pkg-config \
+    python3-dev \
+    python-pip \
+    python-setuptools \
+    python-virtualenv \
+    unzip \
+    && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-CMD ["echo", "Imagem criada."]
+RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+    wget --quiet https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh -O ~/anaconda.sh && \
+    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+    rm ~/anaconda.sh
+
+ENV PATH /opt/conda/bin:$PATH
+
+EXPOSE 8888 
+
+#Setup File System
+RUN mkdir ds
+ENV HOME=/ds
+ENV SHELL=/bin/bash
+WORKDIR /ds
+
+CMD ["jupyter", "notebook","--ip=0.0.0.0","--allow-root", "--no-browser"]
 ```
+
+A primeira especificação do **Dcokerfile** é da imagem que utilizaremos para criar no ambiente, com a tag **FROM**, sem suida utilizamos a tag **LABEL** para definir a pessoa que criou a imagem, depois com a tag **RUN**, executamos diversos comandos no shell do container, dentre eles foram executados: o update do sistema, depois foram instalados algumas bibliotecas e ferramentas de desenvolvimentos, bem como o git, o python, entre outros. No **RUN** seguinte foi baixado e instalado framework anaconda. Com a tag **ENV** foi definida uma variável de ambiente para execução do anaconda, posterimente com **EXPOSE** foi definida a porta que ficaria aberta. Executamos outro **RUN** para criar a pasta *ds*, em seguida duas variáveis de ambiente uma para apontar o diretório *HOME* para a pasta criada *ds* e outra para definir o *SHELL* como */bin/bash*. Por fim, com a tag **WORDIR**, foi definido o diretório de trabalho do container como sendo a pasta *ds*. A última tag **CMD**, informa que depois do container criado e tudo instalado será executado um comando no terminal como está definido: execute o jupyter-notebook com os parâmetros de ip definido em 0.0.0.0, como root e indicando para não abrir o browser do container. 
+
 
 ### Criando uma imagem a partir de um Dockerfile
 
