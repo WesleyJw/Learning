@@ -21,4 +21,4 @@ RUN apt-get update && \
     apt-get purge && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN Rscript -e "install.packages(c('RPostgreSQL', 'rmarkdown', 'tidyverse', 'workflowr', 'shiny'))"
+RUN Rscript -e "install.packages(c('RPostgreSQL', 'RPostgres', 'sqldf', 'rmarkdown', 'tidyverse', 'workflowr', 'shiny'))"

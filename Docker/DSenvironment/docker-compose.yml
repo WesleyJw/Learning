@@ -13,6 +13,8 @@ services:
       - /home/wesley/DSEnvironment/jupyter_vol:/home/work
     ports:
       - "8888:8888"
+    networks:
+      - postgresDB-network
       
   rstudio-service:
     build: 
@@ -25,6 +27,8 @@ services:
       - "8787:8787"
     volumes:
       - /home/wesley/DSEnvironment/rstudio_vol:/home/rstudio
+    networks:
+      - postgresDB-network
 
   postgresDB:
     image: postgres
@@ -50,6 +54,9 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+    volumes:
+      - /home/wesley/DSEnvironment/postgres_vol:/var/lib/pgadmin
+    working_dir: /pgadmin
     depends_on:
       - postgresDB
     networks:

@@ -821,3 +821,9 @@ docker image push wesleyjw/rstudio-serve:1.0
 ```
 
 Pronto, agora só abrir seu docker hub e verificar sua imagem.
+
+## Restore a dataset in postgresDB
+
+```console
+ sudo docker exec -i pg_container pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d dvdrentail < /home/wesley/Downloads/dvrental/dvdrental.tar
+```

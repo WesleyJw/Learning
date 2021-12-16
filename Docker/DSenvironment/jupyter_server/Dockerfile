@@ -21,6 +21,8 @@ USER $NB_UID
 RUN conda install --quiet --yes \
     'psycopg2' \
     'r-rpostgresql' \
+    'r-RPostgres' \
+    'r-sqldf' \
     'r-getpass' \
     'r-lme4' \
     'r-tidyverse' \
