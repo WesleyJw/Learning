@@ -5,14 +5,14 @@ LABEL maintaner="Wesley Lima" \
     url="wesleyjw.github.io"  
 
 RUN apt-get update && \
-    apt-get upgrate -y && \
     apt-get install -y \
+    libpq-dev \
     libhdf5-dev \
     libcurl4-gnutls-dev \
     libssl-dev \
     libxml2-dev \
     libpng-dev \
-    zliblg-dev \
+    zlib1g-dev \
     libbz2-dev \
     liblzma-dev \
     libglpk40 \
@@ -21,7 +21,4 @@ RUN apt-get update && \
     apt-get purge && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN Rscript -e "install.packages(c('rmarkdown', 'tidyverse', 'workflowr', 'shiny'))"
-
-COPY user-settings /home/rstudio/.rstudio/monitored/user-settings
-COPY .Rprofile /home/rstudio/
+RUN Rscript -e "install.packages(c('RPostgreSQL', 'rmarkdown', 'tidyverse', 'workflowr', 'shiny'))"

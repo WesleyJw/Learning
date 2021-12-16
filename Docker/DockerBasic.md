@@ -282,7 +282,7 @@ docker logs -f c959f10607d1
 Remover todos os container inativos
 
 ```console
-docker prune
+docker system prune
 ```
 
 Seguindo a mesma lógica de comandos temos também: docker attach - para entrar em um container em execução, docker pause - para pausar a execução de um container ativo, docker unpause - para despausar, dcoker kill para matar um container.
@@ -393,6 +393,38 @@ $ pwd
 
 docker container run -d --name linux -v "$PWD/data:/tmp" ubuntu:18.04 sleep 2000
 ```
+
+### Alguns comandos para volumes
+
+Para listar todos os volumes já criados execute o seguinte comando:
+
+```console
+docker volume ls
+
+#volumes pendentes
+docker volume ls -f dangling=true
+```
+
+Para remover um volume:
+
+```console
+docker volume rm vol_name1 vol_name2
+```
+
+Remover volumes pendentes:
+
+
+```console
+docker volume prune
+```
+
+Removendo o container e o volume junto
+
+
+```console
+docker rm -v containerName
+```
+
 
 ---
 
@@ -626,11 +658,18 @@ Para construirmos a nossa imagem a partir de um Dockerfile precisamos apenas exe
 docker build -t ImageName:TAGname .
 
 #exemplo
-docker build -t myimage:1.0 .
+docker build -d -t jupyter-server .
 
 #verificar a nova imagem
 docker images
+
+#verificar o token de acesso ao jupyter
+docker logs IDcontainer
 ```
+
+Para abrir o jupyter notebook, abra em seu browser o endereço do container "localhost:8888", será aberta uma página de login, para acessar você deve informar o seu toke de acesso. Consulter o mesmo via log do container, desta saída procure o link que a presenta a informação "token=yr4cbyr983yre98ydry4bcyr74ybc78r48ryf" cole na página de login do jupyter, pronto seu ambiente está preparado.
+
+
 ---
 
 ## Mais sobre containers
@@ -638,6 +677,7 @@ docker images
 ### Link
 
 É obvio que você já sabe que para um container se comunicar com outro basta compartilhar portas via flag **-p**, mas existe outra forma ainda mais segura. A comunicação entre containers via link permite um capartilhamento seguro e eficiente. Container link permite multiplos containers se comunicar um com outros. Para fazer o link entre containers basta utilizar a glag **--link**, vamos criar um passo a passo para você conseguir realizar este procedimento. Todos os passos seguidos já foram ensinados aqui, se ligue apenas na última parte.
+
 
 ```Dockerfile
 #instanciar um container 
@@ -655,55 +695,63 @@ Imagine uma aplicação grande, com dezenas de containers para poder executar to
 
 Vamos conhecer um arquivo docker-compose:
 
-```docker-compose
+```Dockerfile
 version: "3.8"
 
 services:
   jupyter-service: 
-    image: jupyter/datascience-notebook:4.0.3
+    build: 
+      context: ./jupyter_server
+      dockerfile: Dockerfile
     container_name: jupyter-datascience
     restart: always
     environment: 
       - JUPYTER_TOKEN=password
     volumes:
-      - ./:/home/work
+      - /home/wesley/DSEnvironment/jupyter_vol:/home/work
     ports:
-      - 8888:8888
-
-  rstudio-server:
-    image: wesleyjw/rstudio
+      - "8888:8888"
+      
+  rstudio-service:
+    build: 
+      context: ./rstudio_server
+      dockerfile: Dockerfile
     container_name: rstudio-datascience
     environment:
-      - PASSWORD-password
-      - USERID=$(id -u)
-      - GROUPID=$(id -g)
+      - PASSWORD=password
     ports: 
-      - 8787:8787
+      - "8787:8787"
     volumes:
-      - ./:/home/rstudio
+      - /home/wesley/DSEnvironment/rstudio_vol:/home/rstudio
 
   postgresDB:
     image: postgres
     container_name: pg_container
     restart: always
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: datascience_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "15432:5432"
     volumes:
-      - ./:/var/lib/postgresql/data
+      - /home/wesley/DSEnvironment/postgres_vol:/var/lib/postgresql/data
+    networks:
+      - postgresDB-network
 
   pgadmin:
-    container_name: pgadmin4_container
     image: dpage/pgadmin4
+    container_name: pgadmin4_container
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_EMAIL: email@gmail.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+    depends_on:
+      - postgresDB
+    networks:
+      - postgresDB-network
 
   mongo:
     image: mongo
@@ -713,7 +761,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - ./:/ect/mongo
+      - /home/wesley/DSEnvironment/mongodb_vol:/ect/mongo
 
   mongo-express:
     image: mongo-express
@@ -724,13 +772,52 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/   
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/ 
+
+networks:
+  postgresDB-network:
+    driver: bridge   
 ```
 
-A primeira instrução que deve conter no arquivo docker-compose.yml deve ser a versão do docker-compose que vocẽ está utilizando, você identifica isso com a tag **version**
+A primeira instrução que deve conter no arquivo docker-compose.yml deve ser a versão do docker-compose que vocẽ está utilizando, você identifica isso com a tag **version: "3.8"**. 
 
+A próxima tag informa os serviços que serão levantados pelo docker-compose. Utilizando a tag **services**, veja que a identação forma um bloco de informações. Assim, temos 6 serviços levantados com este arquivo: jupyter-service, rstudio-service, postgresDB, pgadmin, mongo e mongo-express.
 
+Depois da tag **services**, temos duas formas diferentes para informar a imagem na qual iremos utilizar no container. As duas primeiras formas permitem chamar uma imagem de um Dockerfile o qual possui suas próprias configurações. Para chamar uma imagem de um dockerfile no docker-compose primeiro utilize a tag **build**, em seguida informe o caminho com a tag **context** e por fim informe o nome do arquivo que compõe o Dockerfile com a tag **dockerfile**. 
 
+As pŕoximas tags informam algumas configurações adicionais para o nosso compose. Por exemplo, se você não informar com a tag **container_name** o nome do container será o mesmo do serviço. Já a tag **restart** com a instrução *always* informar que o container será reinicializado sempre que cair. A tag **environment** específica as varáveis de ambiente, cada serviço pode ter uma ou mais variáveis de ambiente. A tag **volumes** identificar o caminho do diretório que será compartilhado entre *host* e container. Por fim a tag **ports** libera portas de acesso entre o *host* e container.  
 
+Alguns container ainda possuem algumas tags adicionais. A tag **depends_on** informar que para o serviço pgadmin ser executado o serviço postgresDB precisa está *on*, ou seja de pé. Isso faz total sentido, já que para utilizarmos o pgadmin precisamos do banco de dados postgres. A tag **network** cria uma rede de acesso, que pode ser utilizada pelos containers que dividem a mesma rede. 
 
+---
+## Docker Hub
 
+O docker hub serve como hospedeiro de imagens docker. Nele você pode acessar todas as imagens disponíveis, entre oficiais e não oficiais (imagens criadas por terceiros). Sendo assim, é possível fazer o pull de imagens prontas para uso. Porém, a depender do serviço e grupo de trabalho, é muito mais prático você disponibilizar sua imagem personalizada no docker hub e pode usa-la de qualque lugar sem precisar de nenhum arquivo Dockerfile. 
+
+Para que você possa subir sua imagem no docker hub é necessário primeiro fazer cadastro e criar o login no site da docker hub. Com seu Docker file pronto, faça o build especificando na tag name: userlorgin/image_name:version_name. 
+
+```Dockerfile
+docker build -t wesleyjw/rstudio-serve:1.0 .
+```
+Caso já tenha criado a imagem sem essa especificação é possível modificar a tag name da imagem com o comando abaixo:
+
+```Dockerfile
+docker tag  rstudio-service wesleyjw/rstudio-serve:1.0
+```
+
+Depois de criada  a tag para a sua imagem vamos fazer o *push* (subir) da imagem para o docker hub com os comandos abixo:
+
+- 1. Docker login
+
+Faça o login no docker cliente, caso ainda não tenha realizado:
+
+```bash
+docker login -u usernmae -p password
+```
+- 2. Docker image push
+
+```bash
+docker image push wesleyjw/rstudio-serve:1.0
+```
+
+Pronto, agora só abrir seu docker hub e verificar sua imagem.

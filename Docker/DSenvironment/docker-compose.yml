@@ -2,25 +2,29 @@ version: "3.8"
 
 services:
   jupyter-service: 
-    image: jupyter/datascience-notebook:r-4.1.1
+    build: 
+      context: ./jupyter_server
+      dockerfile: Dockerfile
     container_name: jupyter-datascience
     restart: always
     environment: 
       - JUPYTER_TOKEN=password
     volumes:
-      - ./:/home/work
+      - /home/wesley/DSEnvironment/jupyter_vol:/home/work
     ports:
-      - 8888:8888
+      - "8888:8888"
       
   rstudio-service:
-    image: rocker/rstudio
+    build: 
+      context: ./rstudio_server
+      dockerfile: Dockerfile
     container_name: rstudio-datascience
     environment:
       - PASSWORD=password
     ports: 
-      - 8787:8787
+      - "8787:8787"
     volumes:
-      - ./:/home/rstudio
+      - /home/wesley/DSEnvironment/rstudio_vol:/home/rstudio
 
   postgresDB:
     image: postgres
@@ -33,7 +37,7 @@ services:
     ports:
       - "15432:5432"
     volumes:
-      - ./:/var/lib/postgresql/data
+      - /home/wesley/DSEnvironment/postgres_vol:/var/lib/postgresql/data
     networks:
       - postgresDB-network
 
@@ -59,7 +63,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - ./:/ect/mongo
+      - /home/wesley/DSEnvironment/mongodb_vol:/ect/mongo
 
   mongo-express:
     image: mongo-express
