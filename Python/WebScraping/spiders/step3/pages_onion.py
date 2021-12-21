@@ -1,10 +1,10 @@
-# This Spider get the number of pages that store the cotation onion links
+# This get the link pages that store cotation onion links
 
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
 
-# Get the pages number
+# Get the pages links
 
 
 def get_page_url(url):

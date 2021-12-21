@@ -195,16 +195,16 @@ else:
 
 Web crawlers são rastreadores da internert, por diversas vezes precisamos navegar na internet em busca de informações que estão contidas em páginas dentro de outras páginas.
 
-Vejamos em ação nosso primeiro Onion Crowler:
+Vejamos em ação nosso primeiro Onion Crawler:
 
 ```Python
-# This Spider get the number of pages that store the cotation onion links
+# This get the link pages that store cotation onion links
 
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
 
-# Get the pages number
+# Get the pages links
 
 def get_page_url(url):
 
@@ -233,4 +233,26 @@ if __name__ == '__main__':
         print(url)
         url = get_page_url(url)
 ```
+
+## Modelos de Web Crawling
+
+Um erro comun quando se começar a desenvolver web crawlings é não modelar seu problema. E começar a definir escopos quando se está visitando as páginas de interesse. Se web crawlings possuem a natureza de buscar dados em diversas páginas, imagine o perigo de não modelar bem o seu problema. A cada visita em novos sites você vê uma gama de possíveis variáveis de interesse. Este número de variáveis só aumenta e cada vez mais seu crawler tem a chance de quebrar por apresentar cada vez mais complexidade.
+
+Desta forma, é extremamente importante modelar o crawler antes mesmo de começar a desenvolvê-lo. Pense em quais dados são importantes para coletar, em quais páginas eles se encontram, como eles aparecem na página, qual o tipo de dado e como armazená-lo. Em alguns casos pode ser fácil armazenar os dados em um banco SQL, em outros pode ser mais viável amazenar no formato de texto, json ou armazenar em bancos NOSql. 
+
+Em alguns casos podemos coletar informações cruciais sobre o produto:
+
+- Nome;
+- Preço;
+- Id do produto
+- Data
+
+Em seguida podemos coletar outras informações que podemos classificar como do tipo atributo, estas não são obrigatórias:
+
+- Nome do atributo
+- Valor do atributo
+
+Estes podem até mesmo serem armazenados em diferentes banco de dados. Desta forma fica muito mais fácil trabalhar com diferentes sites em busca de informações semelhantes.
+
+
 
