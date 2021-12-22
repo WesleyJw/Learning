@@ -254,5 +254,16 @@ Em seguida podemos coletar outras informações que podemos classificar como do 
 
 Estes podem até mesmo serem armazenados em diferentes banco de dados. Desta forma fica muito mais fácil trabalhar com diferentes sites em busca de informações semelhantes.
 
+## Scrapy
 
+Scrapy é um framework python que permite o desenvolvimento de Web Crawlers de forma mais organizada e limpa, permitindo também uma manutenção e reaproveitamento de código mais intuitivo. Para instalar podemos utilizar o gerenciador de pacotes anaconda com o seguinte comando `conda install -c conda-forge scrapy`.
 
+### Inicializando uma spider 
+
+A partir de agora uma Spider é um projeto Scrapy que permite rastrear a web. Por outro lado Crawler significa qualquer programa genérico que rastreia a web, usando Scrapy ou não.
+
+Para criarmos nossa primeira spider vamos executar a seguinte linha de comando (lembre de navegar até o dirétorio do projeto):
+
+`$ scrapy startproject wikiSpider`
+
+Este comando criará um novo diretório com o nome do projeto criado o qual possui por padrão 
