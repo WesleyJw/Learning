@@ -267,3 +267,30 @@ Para criarmos nossa primeira spider vamos executar a seguinte linha de comando (
 `$ scrapy startproject wikiSpider`
 
 Este comando criará um novo diretório com o nome do projeto criado o qual possui por padrão 
+
+Vá até a pasta spiders e crie um arquivo chamado `article.py`, em seguida vamos criar nossa primeira spider:
+
+```Python
+import scrapy
+
+
+class ArticleSpider(scrapy.Spider):
+    name = 'article'
+
+    def start_requests(self):
+        urls = [
+            'http://en.wikipedia.org/wiki/Python_'
+            '%28programming_language%29',
+            'https://en.wikipedia.org/wiki/Functional_programming',
+            'https://en.wikipedia.org/wiki/Monty_Python']
+
+        return [scrapy.Request(url=url, callback=self.parse) for url in urls]
+
+    def parse(self, response):
+        url = response.url
+        title = response.css('h1::text').extract_firs()
+        print("URL is: {}".format(url))
+        print("Title is: {}".format(title))
+```
+
+Para executar este código você pode utilizar o comando `scrapy crawl articles` dentro do dirétorio do projeto.
