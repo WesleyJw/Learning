@@ -21,6 +21,7 @@ services:
       context: ./rstudio_server
       dockerfile: Dockerfile
     container_name: rstudio-datascience
+    restart: always
     environment:
       - PASSWORD=password
     ports: 

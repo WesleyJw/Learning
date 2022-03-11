@@ -20,6 +20,7 @@ USER $NB_UID
 
 RUN conda install --quiet --yes \
     'psycopg2' \
+    'pmdarima' \
     'nltk'\
     'r-rpostgresql' \
     'r-RPostgres' \
