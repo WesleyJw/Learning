@@ -27,6 +27,6 @@ def get_onion_links(url):
 
 
 if __name__ == '__main__':
-    url = "https://www.didigalvao.com.br/page/10/?s=cota%C3%A7%C3%A3o+cebola"
+    url = "https://www.didigalvao.com.br/page/1/?s=cota%C3%A7%C3%A3o+cebola"
     for link in get_onion_links(url):
         print(link)

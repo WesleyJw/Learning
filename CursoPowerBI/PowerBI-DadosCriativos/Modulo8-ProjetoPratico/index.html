@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+
+        <style>
+
+            .cartao{ 
+                position: relative;
+                background: #ff0;
+                width: 400px;
+                height: 200px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .valor{
+                color: #00f;
+                font-size: 50px;
+                animation: jello-horizontal 0.9s infinite both;
+            }
+
+            @keyframes jello-horizontal {
+                0% {
+                    transform: scale3d(1, 1, 1);
+                }
+                30% {
+                    transform: scale3d(1.25, 0.75, 1);
+                }
+                40% {
+                    transform: scale3d(0.75, 1.25, 1);
+                }
+                50% {
+                    transform: scale3d(1.15, 0.85, 1);
+                }
+                65% {
+                    transform: scale3d(0.95, 1.05, 1);
+                }
+                75% {
+                    transform: scale3d(1.05, 0.95, 1);
+                }
+                100% {
+                    transform: scale3d(1, 1, 1);
+                }
+            }
+
+            .categoria{
+                color: #00f;
+                margin-top: -20px;
+                font-size: 25px;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="cartao">
+            
+            <h1 class="valor">80,00%</h1>
+            <p class="categoria">Porcentagem Meta</p>
+        </div>
+    
+    </body>
+</html>

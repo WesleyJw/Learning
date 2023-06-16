@@ -1,0 +1,33 @@
+"
+<style type='text/css'>
+	
+	.cidade,
+	.faturamento,
+	.margem
+	{
+		position: relative;
+
+		width: 100vw;
+        font-size:8.5vw; /* Tamanho dos Textos */
+	}
+
+    .cidade{
+        color: #ddd; /* Alterar cor do Nome da Cidade */
+    }
+
+    .faturamento
+    {   color: #59B7C8} /* Altera a cor do Faturamento */
+
+    .margem
+    {   color: #FD8D42; /* Altera a cor da medida Margem */
+     }
+  
+
+
+</style>
+
+	<div class='cidade'> São Paulo </div>
+	<div class='faturamento'> R$ 1000 </div>
+	<div class='margem'> 00,00 % </div>
+
+"

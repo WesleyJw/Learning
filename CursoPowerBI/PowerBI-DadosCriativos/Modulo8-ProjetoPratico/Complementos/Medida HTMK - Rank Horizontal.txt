@@ -1,0 +1,38 @@
+"
+<style type='text/css'>
+	
+    div
+    {   display: flex}
+
+	.cidade,
+	.faturamento,
+	.margem
+	{
+		position: relative;
+        color: #ddd; /* Cor do Nome da Cidae */ 
+        font-size:5vw; /* Tamanho do Texto */
+	}
+
+    .cidade
+    { width: 40vw;}
+
+    .faturamento
+    {   width: 40vw;
+        color: #59B7C8} /* Cor do Faturamento */
+
+    .margem
+    {   color: #FD8D42; /* Cor da Margem /* 
+        font-weight: bold;
+        width: 10vw;
+    }
+
+    
+
+
+</style>
+
+	<div class='cidade'> Sao Paulo </div>
+	<div class='faturamento'> R$ 1000 </div>
+	<div class='margem'> 00,00 % </div>
+
+"
