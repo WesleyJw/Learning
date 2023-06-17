@@ -109,24 +109,3 @@ DAX (Data Analysis Expressions) é uma coleção de **funções**, **operadores*
 Uma função Dax pode retornar como resultado um Esclar (valor único), Tabela ou Coluna. 
 
 ![Tipos de Funções Dax](./assets/Modulo6/tipos_funcoes.PNG)
-
-### Funções Dax
-
-#### SUM
-
-Soma todos os números de uma coluna.
-
-- Sintax: 
-`SUM(<NomedaColuna>) ou SUM(<NomedaTabela[NomedaColuna]>)`
-
-- Prâmetros: 
-    - `<NomedaColuna>`: A coluna que possui ops números para serem somados. 
-
-- Retorna: 
-    - Um número decimal.
-
-
-
-#### Escondendo Datas Futuras via Medidas
-
-O uso de funções que trabalham com tempo, tendem a propagar as informações até a data limite da tabela dCalendário, quando na maioria das vezes não existem dados até este período. Para deixar o cálculo até o limite de data que existem dados podemos recorrer as funções: 
