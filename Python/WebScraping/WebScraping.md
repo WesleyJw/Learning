@@ -4,11 +4,11 @@ Web scraping pode ser definido como a atividade de extrair dados de páginas ou 
 
 ## Spider x Crawler
 
-Um Crawler navega por divesas páginas, por exemplo o google, que navega por diversas páginas até obter uma repostar ou as  respostas com mais destaque. A spyder segue regras, estas estão dentro de um crawler. As spiders são responsáveis pela captura da informação desejada, o crawler determinar as condições e caminhos de captura.
+Um Crawler navega por divesas páginas, por exemplo o google, que navega por diversas páginas até obter uma reposta ou as  respostas com mais destaques. A spyder segue regras, estas estão dentro de um crawler. As spiders são responsáveis pela captura da informação desejada, o crawler determinar as condições e caminhos de captura.
 
 ## API's
 
-API's fornecem dados de negócio com base em requisições HTTP. Quando estamos a procura de dados fazemos requisiçõs GET e a API é responsável por se comunicar com o sistema gerenciador de banco de dados informando quais os dados/informações requisitadas, retornando tudo aquilo previamente programado na API.
+API's fornecem dados de negócio com base em requisições HTTP. Quando estamos a procura de dados fazemos requisiçõs GET e a API é responsável por se comunicar com o sistema gerenciador de banco de dados informando quais os dados/informações requisitados, retornando tudo aquilo previamente programado na API.
 
 ## Scrapy x Beautiful Soup
 
@@ -95,11 +95,11 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 
-# We scraping the web blog of a jornalist of the Cabrobó city.
-# The Blog report of the onion price by week in the ceasa City.
+# Lets to start with a scraping from a blog of the Cabrobó town.
+# The Blog report of the onion price by week in the ceasa town.
 # Get the title of the onion report in the fisrt page of cotation onion.
 # We have 32 cotaion onion pages. Get the titles of the first page.
-# This titles has the url to page with onion contation of the week
+# This titles has the url to page with onion weekly price.
 
 try:
     html = urlopen(
@@ -113,7 +113,7 @@ else:
         print(name.get_text())
 ```
 
-Com a função **find_all** é possível buscar atributos html ou css em documentos html. Esta função retorna todas as ocorreções conforme os atributos especificados. Por outro lado a função **find** encontra primeira ocorrência de um atributo. Existe diversas funções **find** na biblioteca BeautifulSoup. 
+Com a função **find_all** é possível buscar atributos html ou css em documentos html. Esta função retorna todas as ocorrencias conforme os atributos especificados. Por outro lado a função **find** encontra primeira ocorrência de um atributo. Existe diversas funções **find** na biblioteca BeautifulSoup. 
 
 A função **get_text** busca o texto que está contido na tag html que foi encontrada.
 
