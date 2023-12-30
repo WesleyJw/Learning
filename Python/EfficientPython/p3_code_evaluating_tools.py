@@ -11,8 +11,9 @@
 
 # %%
 import sys
-from Python.EfficientPython.p3_module_test import simulate
+from p3_module_test import simulate
 import numpy as np
+import timeit
 
 %timeit rand = np.random.rand(500)
 
@@ -26,6 +27,20 @@ big_names = []
 for name in names:
     if len(name) > 4:
         big_names.append(name)
+
+# %%
+timeit.timeit()
+par_values = [n for n in range(1, 10) if n % 2 == 0]
+par_values
+timeit.timeit()
+# %%
+
+# %%
+inicio = timeit.default_timer()
+par_values = [n for n in range(1, 10) if n % 2 == 0]
+par_values
+fim = timeit.default_timer()
+print('>>>>> Tempo execução função fatorial: %f' % (fim - inicio))
 
 # %%
 % % timeit
