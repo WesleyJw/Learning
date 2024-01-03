@@ -67,3 +67,34 @@ kubectl describe sparkapplication spark-pi -n spark-processing
 
  kubectl logs -f users-by-city-driver -n spark-processing
 ```
+
+### How to Monitoring Spark Cluster With Delight
+
+You basically need to add some config rows to your yaml file. In your yaml file put this code: 
+
+```
+jars:
+    - "https://oss.sonatype.org/content/repositories/snapshots/co/datamechanics/delight_2.12/latest-SNAPSHOT/delight_2.12-latest-SNAPSHOT.jar"
+  sparkConf:
+    "spark.delight.accessToken.secret": "token_code"
+    "spark.extraListeners": "co.datamechanics.delight.DelightListener"
+```
+
+Replace new_token with your delight token. It is necessary to do a singin in Delight page and to create a new token. Delight doesn't work yet with spark version more than 3.2, then we go to build a new image to docker hub. We create a new dockerfile to build the image..
+
+```
+docker build -t wesleyjw/spark-series:spark-py-3.2.4 .
+```
+
+After build the image we can to do a push to dockerhub.
+
+```
+docker push wesleyjw/spark-series:spark-py-3.2.4
+```
+
+Deploy the new application:
+
+```
+sudo kubectl apply -f scripts/yamls/2_users-by-city_delight.yaml
+```
+
