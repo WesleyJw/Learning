@@ -101,3 +101,59 @@ sudo kubectl apply -f scripts/yamls/2_users-by-city_delight.yaml
 
 If you need redeploy an application you need to delete the SaprkApplication created when you apply scritp with kubectl. Every time that you need to redeploy an application it is necessary to remove the spark application.
 
+### Integration With AWS
+
+To connect a spark application with a aws bucket (S3), We need to config some jars. Therefore, We need to change the yaml file and put some config rows:
+
+```
+sparkConf:
+    spark.hadoop.fs.s3a.acess.key: "FIUJEWHFUIWBCBWEUYFGDYEWBCMNVJ"
+    spark.hadoop.fs.s3a.secret.key: "IUVY7TVUYHITGUR6TYGFYGguyfrcvdhyguygfuytHYUTYTV"
+    spark.hadoop.fs.s3a.impl: "org.apache.hadoop.fs.s3a.S3AFileSystem"
+    spark.hadoop.fs.s3a.aws.credentials.provider: "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+    org.apache.hadoop.fs.s3a.path.style.access: "True"
+    org.apache.hadoop.fs.s3a.fast.upload: "True"
+    org.apache.hadoop.fs.s3a.multipart.size: "104857600"
+    org.apache.hadoop.fs.s3a.connection.maximum: "100"
+```
+
+We go to change the mainApplicationFile paramenter. Now the main file to run the application is in the S3 bucket on aws, with this change We don't need to put the file script in the image. This metodology is more flexible to change files and redeploy the spark application.
+
+```
+mainApplicationFile: "s3a://spok-scripts/users.py"
+```
+
+After that and before We apply our application, We need to build an image with spark. We create a Makefile witht the specification to the project.   
+
+
+```
+SPARK_VERSION=3.3.2
+PACKAGE=spark-$(SPARK_VERSION)-bin-hadoop3
+
+build:
+  # Download the Jars 
+	wget -P /tmp https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.2/hadoop-aws-3.3.2.jar
+	wget -P /tmp https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.98/aws-java-sdk-bundle-1.12.98.jar
+
+
+  # Download the spark
+	curl https://dlcdn.apache.org/spark/spark-$(SPARK_VERSION)/$(PACKAGE).tgz | tar -xz -C /tmp/
+
+  # Move jars to /tmp/$(PACKAGE)/jars/ directory
+	mv /tmp/hadoop-aws-3.3.2.jar /tmp/$(PACKAGE)/jars/
+	mv /tmp/aws-java-sdk-bundle-1.12.98.jar /tmp/$(PACKAGE)/jars/
+
+  # Buil the image with the spark bash
+	cd /tmp/$(PACKAGE) \
+	&& ./bin/docker-image-tool.sh -t latest -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile build
+
+	rm -rf /tmp/$(PACKAGE)
+```
+
+Now, you need just applied the command make from root directory of the file created.
+To push the image to Docker hub, firstly We need to change the tag image to Our image name. Then just do the push. 
+
+```
+docker tag spark-py:latest wesleyjw/spark-series:spark-3.3.2_hadoop-3-aws
+docker push wesleyjw/spark-series:spark-3.3.2_hadoop-3-aws
+```
