@@ -1,8 +1,8 @@
-## Configure Saprk Cluster with Kind
+## Configure Spark Cluster with Kind
 
 ### Kind Create Cluster
 
-How to create a cluster using a script yaml.
+How to create a cluster using a script YAML.
 
 ```
 
@@ -10,7 +10,7 @@ kind create cluster --name spark-demo --config.yaml
 
 ```
 
-Create a namespace in kubernets
+Create a namespace in Kubernetes
 
 ```
 
@@ -27,28 +27,28 @@ $ helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8
 
 ### Installing Spark Operator
 
-To install the Kubernets Operator for Apache Spark use the helm repositorie with the command:
+To install the Kubernetes Saprk Operator for the Apache Spark Application, We can use the helm repository with the command:
 
 ```
 $ helm install spark-series spark-operator/spark-operator --namespace spark-operator --create-namespace --set sparkJobNamespace=spark-processing
 
 ```
 
-To validated if the installation is on, test with:
+To validate if the installation is on, test with:
 
 ```
 kubectl get podes -n spark-operator
 ```
 
-### Running an Application on Kubenerts
+### Running an Application on Kubernetes
 
-Write a yaml file with the specification about your application and excute with the following code:
+Write a YAML file with the specifications of your application and execute it with the following code:
 
 ```
 kubectl apply -f hello-world.yaml
 ```
 
-You need to change the serviceAccount paramener from yaml model scrit. To get the service account in your workspace do:
+You need to change the serviceAccount parameter from the YAML model script. To get the service account in your workspace do:
 
 ```
 kubectl get serviceaccount -n spark-processing
@@ -70,7 +70,7 @@ kubectl describe sparkapplication spark-pi -n spark-processing
 
 ### How to Monitoring Spark Cluster With Delight
 
-You basically need to add some config rows to your yaml file. In your yaml file put this code: 
+You need to add some config rows to your YAML file. In your YAML file put this code: 
 
 ```
  deps:
@@ -81,13 +81,13 @@ You basically need to add some config rows to your yaml file. In your yaml file 
     "spark.extraListeners": "co.datamechanics.delight.DelightListener"
 ```
 
-Replace new_token with your delight token. It is necessary to do a singin in Delight page and to create a new token. Delight doesn't work yet with spark version more than 3.2, then we go to build a new image to docker hub. We create a new dockerfile to build the image..
+Replace new_token with your delight token. It is necessary to do a sign in on the Delight page and to create a new token. Delight doesn't work yet with spark version more than 3.2, then we go to build a new image to docker hub. We create a new docker file to build the image.
 
 ```
 docker build -t wesleyjw/spark-series:spark-py-3.2.4 .
 ```
 
-After build the image we can to do a push to dockerhub.
+After building the image we can do a push to dockerhub.
 
 ```
 docker push wesleyjw/spark-series:spark-py-3.2.4
@@ -99,11 +99,11 @@ Deploy the new application:
 sudo kubectl apply -f scripts/yamls/2_users-by-city_delight.yaml
 ```
 
-If you need redeploy an application you need to delete the SaprkApplication created when you apply scritp with kubectl. Every time that you need to redeploy an application it is necessary to remove the spark application.
+If you need to redeploy an application you need to delete the SaprkApplication created when you apply scritp with kubectl. Every time that you need to redeploy an application it is necessary to remove the spark application.
 
 ### Integration With AWS
 
-To connect a spark application with a aws bucket (S3), We need to config some jars. Therefore, We need to change the yaml file and put some config rows:
+To connect a spark application with an AWS bucket (S3), We need to configure some jars. Therefore, We need to change the YAML file and put some config rows:
 
 ```
 sparkConf:
@@ -117,13 +117,13 @@ sparkConf:
     org.apache.hadoop.fs.s3a.connection.maximum: "100"
 ```
 
-We go to change the mainApplicationFile paramenter. Now the main file to run the application is in the S3 bucket on aws, with this change We don't need to put the file script in the image. This metodology is more flexible to change files and redeploy the spark application.
+We go to change the main application file parameter. Now the main file to run the application is in the S3 bucket on AWS, with this change We don't need to put the file script in the image. This methodology is more flexible to change files and redeploy the spark application.
 
 ```
 mainApplicationFile: "s3a://spok-scripts/users.py"
 ```
 
-After that and before We apply our application, We need to build an image with spark. We create a Makefile witht the specification to the project.   
+After that and before We apply our application, We need to build an image with spark. We create a Makefile with the specifications of the project.   
 
 
 ```
@@ -150,8 +150,8 @@ build:
 	rm -rf /tmp/$(PACKAGE)
 ```
 
-Now, you need just applied the command make from root directory of the file created.
-To push the image to Docker hub, firstly We need to change the tag image to Our image name. Then just do the push. 
+Now, you need just apply the command make from the root directory of the file created.
+To push the image to the Docker hub, firstly We need to change the tag image to Our image name. Then just do the push. 
 
 ```
 docker tag spark-py:latest wesleyjw/spark-series:spark-3.3.2_hadoop-3-aws
