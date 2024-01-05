@@ -157,3 +157,40 @@ To push the image to Docker hub, firstly We need to change the tag image to Our 
 docker tag spark-py:latest wesleyjw/spark-series:spark-3.3.2_hadoop-3-aws
 docker push wesleyjw/spark-series:spark-3.3.2_hadoop-3-aws
 ```
+
+### Native Orchestration
+
+Running Spark applications on a schedule using a [ScheduledSaprkApplicaiton](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/user-guide.md). To scheduler a spark application, We need to change the YAML file following this step:
+
+- kind: ScheduledSaprkApplicaiton
+- spec: 
+  - schedule: with parameters of time to run the application 
+  - and another configs to cluster.
+  - template: With all configurations of your application.
+
+
+### Airflow Orchestration
+
+To install Apache Airflow on K8s, We can use the helm repo:
+
+```
+$ helm install airflow -f helm/airflow/values.yaml helm/airflow -n orchestrator --create-namespace
+```
+
+To habilite permission to Airflow submit Spark YAML. 
+
+```
+$ kubectl apply -f helm/airflow/config-permission.yaml
+
+```
+Map the port of the localhost to the container.
+
+```
+$ kubectl port-forward svc/airflow-webserver 8080:8080 --namespace orchestrator
+
+# Login
+Usuario: admin
+Senha: admin
+```
+
+To run the application open your Aiflow page and sart your job.
