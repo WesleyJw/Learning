@@ -1,0 +1,60 @@
+#
+# Copyright 2017 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: users-by-city-delight-monitoring
+  namespace: spark-processing
+spec:
+  deps:
+    jars:
+      - "https://oss.sonatype.org/content/repositories/snapshots/co/datamechanics/delight_2.12/latest-SNAPSHOT/delight_2.12-latest-SNAPSHOT.jar"
+  sparkConf:
+    "spark.delight.accessToken.secret": "541ab2c01d8613c6dd29029b700dda8b8102ca658ce33dc93ce7d51f9132e8e2"
+    "spark.extraListeners": "co.datamechanics.delight.DelightListener"
+  type: Python
+  mode: cluster
+  image: "wesleyjw/spark-series:spark-py-3.2.4"
+  imagePullPolicy: Always
+  mainClass: org.apache.spark.examples.SparkPi
+  mainApplicationFile: "local:///opt/spark/examples/users-by-city.py"
+  sparkVersion: "3.4.0"
+  restartPolicy:
+    type: Never
+  volumes:
+    - name: "test-volume"
+      hostPath:
+        path: "/tmp"
+        type: Directory
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.4.0
+    serviceAccount: spark-serires-spark
+    volumeMounts:
+      - name: "test-volume"
+        mountPath: "/tmp"
+  executor:
+    cores: 1
+    instances: 1
+    memory: "512m"
+    labels:
+      version: 3.4.0
+    volumeMounts:
+      - name: "test-volume"
+        mountPath: "/tmp"
