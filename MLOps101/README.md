@@ -1,2 +1,2 @@
-## MLPos 101 Course
+## MLOps 101 Course
 
