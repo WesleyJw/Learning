@@ -121,9 +121,3 @@ execute-dep:
     poetry run python examples/script_with_dep.py $NOME
 ```
 
----
-
-### Fast API
-
-
-
