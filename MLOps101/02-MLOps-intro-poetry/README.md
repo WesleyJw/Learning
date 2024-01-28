@@ -98,7 +98,7 @@ execute-dep:
 ```
 make
 ```
-
+Ctrl+D to exit the poetry shell.
 ```
 make execute
 ```
@@ -123,4 +123,7 @@ execute-dep:
 
 ---
 
-### How to admin python projects with Poetry?
+### Fast API
+
+
+

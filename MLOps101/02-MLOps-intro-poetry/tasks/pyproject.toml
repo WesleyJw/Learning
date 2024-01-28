@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "salesdataanalysis"
+version = "0.0.0"
+description = "Create a data nalysis to et insight about sales"
+authors = ["wesleyjw"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pandas = "1.5.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

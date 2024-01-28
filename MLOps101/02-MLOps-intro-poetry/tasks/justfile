@@ -1,0 +1,6 @@
+shell: 
+    poetry shell
+execute: 
+    poetry run python scripts/data_analysis.py
+execute-dep: 
+    poetry run python scripts/data_analysis.py
