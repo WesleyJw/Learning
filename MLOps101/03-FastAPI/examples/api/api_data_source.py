@@ -14,7 +14,11 @@ class Item(BaseModel):
 
 
 # Criar aplicação FastAPI
-app = FastAPI()
+app = FastAPI(
+     # Configure the docs and redoc URLs - to redirect /docs swagger to you home page
+    docs_url="/",
+    redoc_url=None,
+)
 
 
 def criar_banco_de_dados():

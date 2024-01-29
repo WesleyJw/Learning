@@ -2,3 +2,5 @@ shell:
     poetry shell
 api:
     poetry run python3 examples/api/api_data_source.py
+ml-api:
+    poetry run python3 examples/api/api_ml_predict.py

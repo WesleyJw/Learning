@@ -62,6 +62,9 @@ from typing import List
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
+
+# To redirect an endpoint to other
+from fastapi.responses import RedirectResponse
 ```
 An API is a standard model.  For this We can use the `pydntic` library to create a standard model and set validations. To build this model We go create a class as object model with some pre configured parameters.
 
@@ -253,29 +256,27 @@ FastAPI automatically generates swagger standard documentation for each API crea
 
 ![API](./img/api_swagger_docs.jpeg "An API")
 
-### cURL Examples to interact with the API
+### Using cURL as a client to interact with the API
 
 Here are some examples of how to use cURL to interact with the server.
 
-- Examples for the Product Server
-Get All Items:
+1. Examples for the Product Server
+
+- Get All Items:
 
 ```bash
-Copy code
 curl -X GET "http://localhost:8000/items"
 ```
 
 - Get a Specific Item:
 ```bash
-Copy code
 curl -X GET "http://localhost:8000/items/1"
 ```
 Replace 1 with the actual ID of the item you want to retrieve.
 
-- Create a New Item:
+  - Create a New Item:
 
 ```bash
-Copy code
 curl -X POST "http://localhost:8000/insert" -H "Content-Type: application/json" -d '{"id": 0, "name": "New Item", "price": 19.99}'
 ```
 Adjust the JSON payload as needed.
@@ -283,7 +284,6 @@ Adjust the JSON payload as needed.
 - Update an Existing Item:
 
 ```bash
-Copy code
 curl -X POST "http://localhost:8000/update/1" -H "Content-Type: application/json" -d '{"id": 1, "name": "Updated Item", "price": 29.99}'
 ```
 Replace 1 with the actual ID of the item you want to update, and adjust the JSON payload as needed.
@@ -291,7 +291,6 @@ Replace 1 with the actual ID of the item you want to update, and adjust the JSON
 - Delete an Item:
 
 ```bash
-Copy code
 curl -X DELETE "http://localhost:8000/items/1"
 ```
 Replace 1 with the actual ID of the item you want to delete.
@@ -301,13 +300,11 @@ Replace 1 with the actual ID of the item you want to delete.
   - Sentiment Prediction Without Authentication:
 
 ```bash
-Copy code
 curl -X POST "http://localhost:8000/prediction/" -H "Content-Type: application/json" -d '{"text": "I love my dog"}'
 ```
   - Sentiment Prediction With Body Authentication:
 
 ```bash
-Copy code
 curl -X POST "http://localhost:8000/prediction_with_auth/" -H "Content-Type: application/json" -d '{"token": "password123", "text": "I love my dog"}'
 ``` 
 Replace "TextToClassify" with the text you want to classify.
@@ -317,7 +314,19 @@ Note that in this example, the authentication token is "password123." Make sure 
   - Sentiment Prediction With Header Authentication:
 
 ```bash
-Copy code
 curl -X POST "http://localhost:8000/prediction_with_auth/" -H "Content-Type: application/json" -H "Authorization: Bearer password123" -d '{"token": "password123", "text": "I love my dog"}'
 ```
 Note that in this example, the authentication token is "password123." Make sure to use the correct token if you changed the value in the code.
+
+If you include the following method next the home method the swagger documentation will your home page.
+
+```python
+# Criar aplicação FastAPI
+app = FastAPI(
+     # Configure the docs and redoc URLs - to redirect /docs swagger to you home page
+    docs_url="/",
+    redoc_url=None,
+)
+```
+
+### Using Authentication 
