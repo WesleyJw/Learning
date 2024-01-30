@@ -1,8 +1,8 @@
-## Task 001: Home work - Data Manipulation with Pandas
+## Task 001: Data Manipulation with Pandas
 
 Create a Python script named data_analysis.py that performs the following tasks:
 
-**Answare**. I created the script in the scripts directory.
+**Answer**. I created the script in the scripts directory.
 
 1. Using the Pandas library, read the CSV file from `Data/sales_data.csv` containing sales data.
 
