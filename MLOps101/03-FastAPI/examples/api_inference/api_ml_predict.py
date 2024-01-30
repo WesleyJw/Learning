@@ -84,6 +84,7 @@ def predicao(texto: Texto, Authorization: str = Header(...)):
         dict: Dicionário com a predição e o score
     """
     expected_token = "senha123"
+
     if Authorization != f"Bearer {expected_token}":
         raise HTTPException(status_code=401, detail="Não autorizado")
     predicao = CLASSIFICADOR_SENTIMENTO([texto.texto])
