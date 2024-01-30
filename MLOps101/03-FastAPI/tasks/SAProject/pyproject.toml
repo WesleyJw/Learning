@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "sa-api-project"
+version = "0.0.0"
+description = "Building an API to Text Sentiment Analysis"
+authors = ["wesleyjw"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+torch = {version = "^2.2.0+cpu", source = "pytorch"}
+torchvision = {version = "^0.17.0+cpu", source = "pytorch"}
+fastapi = "^0.109.0"
+uvicorn = "^0.27.0.post1"
+transformers = "^4.37.2"
+
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
