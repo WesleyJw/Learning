@@ -1,0 +1,4 @@
+shell:
+    poetry shell
+api-start:
+    poetry run python3 api/api.py
