@@ -9,10 +9,12 @@ In this project, we have developed an application for sentiment analysis alongsi
 ---
 ### Business Requirements
 
-- Build a method that allows authenticated users to view all their texts. 
-- Create a second table in the database to store users and their passwords.
+- Create an app to text classification.  Use a pre-trained model from Hugging Face's transformers library for sentiment analysis.
+- Create a RESTful API to text sentiment analysis. 
 - Develop a method for creating users.
+- Create a table in the database to store users and their passwords.
 - Verify if the user exists and if the password is correct before returning a prediction.
+- Build a method that allows authenticated users to view all their texts. 
 - Establish a method to retrieve all texts from a user if the password is correct.
 
 ---
@@ -24,10 +26,11 @@ In this project, we have developed an application for sentiment analysis alongsi
     - `api.py`: Main FastAPI application.
     - `authentication.py` : Contains functions to user authentication.
     - `database.py`: Functions to database integrations, including insert, delete, update and connections.
-    - `models.py`: Specifies Pydantic models representing the data structures for request and response.
+    - `model.py`: Specifies Pydantic models representing the data structures for request and response.
   - `app`:  a directory to SA application.
     - `sentiment_analysis.py`: Sentiment analysis implementation using Hugging Face's transformers.
   - `pyproject.toml`: To project management, dependencies and configurations.
+  - `poetry.lock`: To management versions of your project and dependencies (including sub-dependencies).
 
 ---
 ### API Routes/Endpoints
@@ -37,3 +40,27 @@ In this project, we have developed an application for sentiment analysis alongsi
 - `GET /users`: Retrieve all users.
 - `GET /user/`: Retrieve all attributes from a specific user.
 - `GET /texts`: Retrieve all texts submitted to analyze by an user.
+
+### Project Dependencies
+
+- `poetry`: To project management.
+- `pytorch`: To sentiment analysis.
+- `transformers`: To use a pre-trained sentiment analysis model.
+- `fastapi`: Build an API fast.
+- `uvicorn`: To web server implementation. 
+- `sqlite3`: To data storage.
+
+We are using the `CPU` library version to install a clean version of the pytorch library. Adding the following config to poetry makes it possible to use the `CPU` version.
+
+```bash
+poetry source add -p explicit pytorch https://download.pytorch.org/whl/cpu
+```
+
+Installing dependencies with poetry:
+
+```bash
+poetry add --source pytorch torch torchvision
+
+poetry add fastapi uvicorn transformers
+```
+
