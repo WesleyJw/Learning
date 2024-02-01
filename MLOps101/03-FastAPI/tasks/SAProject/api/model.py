@@ -8,12 +8,10 @@ class User(BaseModel):
     Args:
         name (str): An user name
         type (str): the user type admin or select
-        passwrod (str): A strong password to user authentication
     """
     
     name: str
     type: str
-    password: str
 
 class Text(BaseModel):
     """A text input to sentiment classification.

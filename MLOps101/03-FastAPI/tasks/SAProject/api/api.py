@@ -1,11 +1,11 @@
 import uvicorn
 from fastapi import FastAPI, Header, HTTPException
-from transformers import pipeline
 
 from model import User, Text, Prediction
 from database import db_connection, database_initialization
 from app.sa_app import prediction
 from authentication import user_auth, password_auth
+from api_tools import user_creation
 
 # Create FastAPI app
 app = FastAPI(
@@ -28,16 +28,13 @@ def create_user(user: User, Authorization: str = Header(...)):
         type (str): A user role. To a super user, the type is admin; to a user without privileges, the type is select.
         password (str): User password.
     """
-    user_authenticated = user_auth(name=user.name)
-    if Authorization.split(" ")[1] != f"{user_authenticated[3]}":
+    user_authenticated = user_auth(password=Authorization.split(" ")[1])
+    if Authorization != f"Bearer {user_authenticated[3]}":
         raise HTTPException(status_code=401, detail="Access Denied")
-    
-    conn, cursor = db_connection()
-    cursor.execute(
-        "INSERT INTO users (name, type, password) VALUES (?, ?, ?)", (user.name, user.type, user.password)
-    )
-    conn.commit()
-    return user
+    if user_authenticated[2] != "admin":
+        raise HTTPException(status_code=403, detail="Forbidden. You don't have permission to create users.")
+    token = user_creation(user)
+    return {"name": user.name, "type": f"{user.type}. Please, copy the user token: {token.get('password')}"}
 
 # Run app
 if __name__ == "__main__":

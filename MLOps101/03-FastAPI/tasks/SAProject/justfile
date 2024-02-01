@@ -6,3 +6,5 @@ app-run:
     poetry run python3 app/sa_app.py
 test-auth:
     poetry run python3 api/authentication.py
+api-tools:
+    poetry run python3 api/api_tools.py

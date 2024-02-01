@@ -1,15 +1,15 @@
 from database import db_connection
 
-def user_auth(name):
+def user_auth(password):
     """User Authentication by password
 
     Args:
-        name (str): A user name
+        password (str): A user password
     """
     
     conn, cursor = db_connection()
     cursor.execute(
-        "SELECT * FROM users WHERE name = ?", (name,)
+        "SELECT * FROM users WHERE password = ?", (password,)
     )
     user = cursor.fetchone()
     conn.close()
