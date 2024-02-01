@@ -41,6 +41,7 @@ In this project, we have developed an application for sentiment analysis alongsi
 - `GET /user/`: Retrieve all attributes from a specific user.
 - `GET /texts`: Retrieve all texts submitted to analyze by an user.
 
+---
 ### Project Dependencies
 
 - `poetry`: To project management.
@@ -63,4 +64,21 @@ poetry add --source pytorch torch torchvision
 
 poetry add fastapi uvicorn transformers
 ```
+---
+### API Usage
+
+#### Using cUrl commands. 
+
+- Create a new user.
+
+```bash
+$ curl -X POST "http://localhost:8000/create_user/" -H "Content-Type: application/json" -H "Authorization: Bearer 123456" -d '{"name": "Silva", "type": "select"}'
+$ {"name":"Silva","type":"select. Please, copy the user token: 8adb56c8b7dc86e07a9f2fa4a25c8bf7c0de4ffe"}
+```
+
+```bash
+$ curl -X POST "http://localhost:8000/create_user/" -H "Content-Type: application/json" -H "Authorization: Bearer 8adb56c8b7dc86e07a9f2fa4a25c8bf7c0de4ffe" -d '{"name": "Joana", "type": "select"}'
+$ {"detail":"Forbidden. You don't have permission to create users."}
+```
+
 
