@@ -2,3 +2,7 @@ shell:
     poetry shell
 api-start:
     poetry run python3 api/api.py
+app-run:
+    poetry run python3 app/sa_app.py
+test-auth:
+    poetry run python3 api/authentication.py

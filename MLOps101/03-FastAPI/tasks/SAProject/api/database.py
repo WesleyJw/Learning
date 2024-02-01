@@ -29,7 +29,7 @@ def tables_creation(cursor, conn):
     conn.commit()
     conn.close()
     
-def connection():
+def db_connection():
     """Connection to the database"""
     conn = sqlite3.connect("database.db", check_same_thread=False)
     cursor = conn.cursor()
@@ -40,5 +40,5 @@ def database_initialization():
     """
     
     # create users and history table
-    conn, cursor = connection()
+    conn, cursor = db_connection()
     tables_creation(cursor, conn)
