@@ -9,7 +9,20 @@ class User(BaseModel):
         name (str): An user name
         type (str): the user type admin or select
     """
-    
+
+    name: str
+    type: str
+
+class UserList(BaseModel):
+    """Parameters lists returned when a admin user get users list. 
+
+    Args:
+        id (int): The id_user, a value to identify an user in dataset
+        name (str): An user name
+        type (str): the user type admin or select
+    """
+
+    id: int
     name: str
     type: str
 

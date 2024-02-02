@@ -1,13 +1,27 @@
 from database import db_connection
 import hashlib
 
+# generate random Gaussian values
+from random import seed
+from random import gauss
+seed(32)
+
+
 
 def user_creation(user):
+    
+    # Set a random number to be used in token generator
+    token_seed = str(gauss(2, 3)).encode("utf-8")
+    
+    # Insert user name and type
     conn, cursor = db_connection()
+                                                                      
     cursor.execute(
         "INSERT INTO users (name, type, password) VALUES (?, ?, ?)", (user.name, user.type, '')
     )
     conn.commit()
+    
+    # get id_user
     id = cursor.lastrowid
 
     cursor.execute(
@@ -15,14 +29,14 @@ def user_creation(user):
     )
     user_created = cursor.fetchone()
     conn.commit()
-    hash_object = hashlib.sha1(str(user_created[0]).encode('utf-8') + str(user_created[1]).encode('utf-8'))
+    hash_object = hashlib.sha1(str(user_created[0]).encode('utf-8') + str(user_created[1]).encode('utf-8') + token_seed)
     token = {"id": id, "password": hash_object.hexdigest()}
     cursor.execute(
         "UPDATE users SET password = ? WHERE id = ?",
         (token["password"], token["id"])
     )
     conn.commit()
-
+    conn.close()
     return token
 
 def list_users():
@@ -31,7 +45,19 @@ def list_users():
         "SELECT * FROM users;"
     )
     users = cursor.fetchall()
+    conn.close()
     return users
 
+def delete_user(id_user):
+    conn, cursor = db_connection()
+    cursor.execute(
+        "DELETE FROM users WHERE id = ?;", (id_user,)
+    )
+    conn.commit()
+    conn.close()
+
+
 if __name__=="__main__":
+    #delete_user(id_user=3)
     print(list_users())
+    
