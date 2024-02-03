@@ -3,11 +3,11 @@ from fastapi import FastAPI, Header, HTTPException
 from typing import List
 from fastapi import FastAPI, Depends, HTTPException, Header, Request
 
-from model import User, UserList, Text, Prediction
+from model import User, UserList, Text, Prediction, History
 from database import db_connection, database_initialization
 from app.sa_app import prediction
 from authentication import user_auth
-from api_tools import user_creation, get_user, history_insert
+from api_tools import user_creation, get_user, history_insert, get_history
 
 # Function to get the token from the Authorization header
 def get_token(request: Request):
@@ -125,6 +125,24 @@ def prediction_route(text: Text, token: str = Depends(get_token)):
     predict_class = prediction(text.text)
     history_insert(user[0], text.text, predict_class[0], predict_class[1])
     return Prediction(predict=predict_class[0], score=predict_class[1])
+
+@app.get("/get_history/{id_user}", response_model=List[History])
+async def get_history_route(id_user: int, token: str = Depends(get_token)):
+    """All sentiment analysis classifications that a user realized. 
+
+    Args:
+        id_user (int): user id
+        text (str): text to classification
+        predict (str): sentiment class
+        score (float): model accuracy 
+    
+    Returns:
+        History: A history with all analysis realized by a user.
+    """
+    authenticated_user(token)
+    histories = get_history(id_user)
+    histories = [History(id=history[0], id_user=history[1], text=history[2], predict=history[3], score=history[4]) for history in histories]
+    return histories
 
 # Run app
 if __name__ == "__main__":

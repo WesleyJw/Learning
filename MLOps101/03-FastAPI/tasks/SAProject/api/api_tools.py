@@ -73,7 +73,16 @@ def history_insert(id_user, text, predict, score):
     conn.commit()
     conn.close()
 
+def get_history(id_user):
+    conn, cursor = db_connection()
+    cursor.execute(
+        "SELECT * FROM history WHERE id_user = ?;", (id_user, )
+    )
+    history = cursor.fetchall()
+    conn.close()
+    return history
+
 if __name__=="__main__":
     #delete_user(id_user=3)
-    print(get_user("123456")[0])
+    print(get_history(1))
     

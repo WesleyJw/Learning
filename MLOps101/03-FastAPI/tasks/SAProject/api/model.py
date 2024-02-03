@@ -45,3 +45,20 @@ class Prediction(BaseModel):
     
     predict: str
     score: float
+
+class History(BaseModel):
+    """All sentiment analysis classifications that a user realized. 
+
+    Args:
+        id (int): history id
+        id_user (int): user id
+        text (str): text to classification
+        predict (str): sentiment class
+        score (float): model accuracy 
+    """
+    
+    id: int
+    id_user: int
+    text: str
+    predict: str
+    score: float
