@@ -32,10 +32,15 @@ def password_auth(name, password):
 
 def authenticated_user(token):
     user_token = user_auth(password=str(token))
-    print(user_token[3])
     if str(token) != user_token[3]:
         print(user_token[3])
     if user_token[2] != "admin":
+        print(user_token[3])
+
+def authenticated_user_predict(token):
+    user_token = user_auth(password=str(token))
+    print(user_token[3])
+    if str(token) != user_token[3]:
         print(user_token[3])
 
 if __name__=="__main__":

@@ -48,6 +48,15 @@ def list_users():
     conn.close()
     return users
 
+def get_user(password):
+    conn, cursor = db_connection()
+    cursor.execute(
+        "SELECT * FROM users WHERE password = ?;", (password, )
+    )
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
 def delete_user(id_user):
     conn, cursor = db_connection()
     cursor.execute(
@@ -56,8 +65,15 @@ def delete_user(id_user):
     conn.commit()
     conn.close()
 
+def history_insert(id_user, text, predict, score):
+    conn, cursor = db_connection()
+    cursor.execute(
+        "INSERT INTO history (id_user, input_text, prediction, score) VALUES (?, ?, ?, ?)", (id_user, text, predict, score)
+    )
+    conn.commit()
+    conn.close()
 
 if __name__=="__main__":
     #delete_user(id_user=3)
-    print(list_users())
+    print(get_user("123456")[0])
     

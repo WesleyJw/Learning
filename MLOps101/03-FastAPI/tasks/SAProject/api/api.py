@@ -2,13 +2,12 @@ import uvicorn
 from fastapi import FastAPI, Header, HTTPException
 from typing import List
 from fastapi import FastAPI, Depends, HTTPException, Header, Request
-from fastapi.security import OAuth2AuthorizationCodeBearer
 
 from model import User, UserList, Text, Prediction
 from database import db_connection, database_initialization
 from app.sa_app import prediction
 from authentication import user_auth
-from api_tools import user_creation, list_users
+from api_tools import user_creation, get_user, history_insert
 
 # Function to get the token from the Authorization header
 def get_token(request: Request):
@@ -31,6 +30,14 @@ def authenticated_user(token):
         raise HTTPException(status_code=401, detail="Access Denied")
     if user_token[2] != "admin":
         raise HTTPException(status_code=403, detail="Forbidden. You don't have admin permission to manage users.")
+
+def authenticated_user_predict(token):
+    
+    user_token = user_auth(password=str(token))
+    if user_token is None:
+        raise HTTPException(status_code=401, detail="Invalid user.")
+    if str(token) != user_token[3]:
+        raise HTTPException(status_code=401, detail="Access Denied")
 
 # Create FastAPI app
 app = FastAPI(
@@ -90,6 +97,11 @@ async def get_user_route(id_user: int, token: str = Depends(get_token)):
 @app.delete("/delete_user/{id_user}")
 async def delete_user_route(id_user: int, token: str = Depends(get_token)):
     """Delete an users in database. You must have a admin authentication type.
+    
+    Args:
+        id_user (int): User id
+    
+    Returns: Success message
     """
     authenticated_user(token)
     conn, cursor = db_connection()
@@ -98,6 +110,21 @@ async def delete_user_route(id_user: int, token: str = Depends(get_token)):
     )
     conn.commit()
     return {"message": f" User {id_user} deleted."}
+
+@app.post("/sa_prediction/", response_model=Prediction)
+def prediction_route(text: Text, token: str = Depends(get_token)):
+    """Predict a sentiment analysis from a text.
+
+    Args:
+        text (str): Text to be classified
+    Returns:
+        Prediction: The sentiment analysis result with predicted classe and score
+    """
+    authenticated_user_predict(token)
+    user = get_user(token)
+    predict_class = prediction(text.text)
+    history_insert(user[0], text.text, predict_class[0], predict_class[1])
+    return Prediction(predict=predict_class[0], score=predict_class[1])
 
 # Run app
 if __name__ == "__main__":
