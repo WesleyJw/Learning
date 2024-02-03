@@ -123,7 +123,19 @@ $ curl -X DELETE "http://localhost:8000/delete_user/{15}" -H "Content-Type: appl
 $ {"message":" User 15 deleted."}
 ```
 
+#### Make a sentiment analysis prediction
+
 ```bash
 $ curl -X POST "http://localhost:8000/sa_prediction/" -H "Content-Type: application/json" -H "Authorization: Bearer 123456" -d '{"text": "I will married tonight."}'
-$ {"detail":"Forbidden. You don't have permission to create users."}
+$ {"predict":"POSITIVE","score":0.9992058873176575}
+```
+
+#### Get all sentiment analysis predictions by user
+
+```bash
+curl -X GET "http://localhost:8000/get_history/{1}" -H "Content-Type: application/json" -H "Authorization: Bearer 123456" 
+$ [
+  {"id":1,"id_user":1,"text":"I will married tonight.","predict":"POSITIVE","score":0.9992058873176575},
+  {"id":2,"id_user":1,"text":"I take a bus to chicago and the bus broken","predict":"NEGATIVE","score":0.999517560005188}
+  ]
 ```
