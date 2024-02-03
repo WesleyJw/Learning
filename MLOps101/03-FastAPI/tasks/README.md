@@ -67,18 +67,63 @@ poetry add fastapi uvicorn transformers
 ---
 ### API Usage
 
-#### Using cUrl commands. 
+#### Creating new users
 
-- Create a new user.
+- Authenticated
 
 ```bash
 $ curl -X POST "http://localhost:8000/create_user/" -H "Content-Type: application/json" -H "Authorization: Bearer 123456" -d '{"name": "Silva", "type": "select"}'
 $ {"name":"Silva","type":"select. Please, copy the user token: 8adb56c8b7dc86e07a9f2fa4a25c8bf7c0de4ffe"}
 ```
 
+- Not Authenticated
+
 ```bash
 $ curl -X POST "http://localhost:8000/create_user/" -H "Content-Type: application/json" -H "Authorization: Bearer 8adb56c8b7dc86e07a9f2fa4a25c8bf7c0de4ffe" -d '{"name": "Joana", "type": "select"}'
 $ {"detail":"Forbidden. You don't have permission to create users."}
 ```
 
+#### List users:
 
+- Authenticated
+
+```bash
+$ curl -X GET "http://localhost:8000/list_users" -H "Content-Type: application/json" -H "Authorization: Bearer b2702f817e7d6884237898610772171d1a6411dc" 
+$ [
+  {"id":1,"name":"Wesley","type":"admin"},
+  {"id":4,"name":"Lima","type":"select"},
+  {"id":16,"name":"Ana","type":"select"},
+  {"id":17,"name":"Maria","type":"admin"}]
+```
+
+- Authenticated but without permissions to list users
+
+```bash
+$ curl -X GET "http://localhost:8000/list_users" -H "Content-Type: application/json" -H "Authorization: Bearer 8adb56c8b7dc86e07a9f2fa4a25c8bf7c0de4ffe" 
+$ {"detail":"Forbidden. You don't have admin permission to manage users."}
+```
+
+- Not Authenticated or Invalid users
+
+```bash
+$ curl -X GET "http://localhost:8000/list_users" -H "Content-Type: application/json" -H "Authorization: Bearer 8adb56c8b7dc86e07a9f2fa4a25c8bf7c0de4" 
+$ {"detail":"Invalid user."}
+```
+- Get a specific user by id
+
+```bash
+$ curl -X GET "http://localhost:8000/get_user/{1}" -H "Content-Type: application/json" -H "Authorization: Bearer b2702f817e7d6884237898610772171d1a6411dc" 
+$ {"id":1,"name":"Wesley","type":"admin"}
+```
+
+#### Delete user
+
+```bash
+$ curl -X DELETE "http://localhost:8000/delete_user/{15}" -H "Content-Type: application/json" -H "Authorization: Bearer b2702f817e7d6884237898610772171d1a6411dc" 
+$ {"message":" User 15 deleted."}
+```
+
+```bash
+$ curl -X POST "http://localhost:8000/sa_prediction/" -H "Content-Type: application/json" -H "Authorization: Bearer 123456" -d '{"text": "I will married tonight."}'
+$ {"detail":"Forbidden. You don't have permission to create users."}
+```
