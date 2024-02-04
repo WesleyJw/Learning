@@ -27,6 +27,7 @@ In this project, we have developed an application for sentiment analysis alongsi
     - `authentication.py` : Contains functions to user authentication.
     - `database.py`: Functions to database integrations, including insert, delete, update and connections.
     - `model.py`: Specifies Pydantic models representing the data structures for request and response.
+    - `sql_queries.py`: SQL queries to select, insert, create, update and delete users and texts.
   - `app`:  a directory to SA application.
     - `sentiment_analysis.py`: Sentiment analysis implementation using Hugging Face's transformers.
   - `pyproject.toml`: To project management, dependencies and configurations.
@@ -35,11 +36,13 @@ In this project, we have developed an application for sentiment analysis alongsi
 ---
 ### API Routes/Endpoints
 
+- `GET /`: API root route with documentation.
 - `POST /create_user/`: To create a new user.
 - `POST /sa_prediction/`: Submit a text for sentiment analysis.
-- `GET /users`: Retrieve all users.
-- `GET /user/`: Retrieve all attributes from a specific user.
-- `GET /texts`: Retrieve all texts submitted to analyze by an user.
+- `GET /list_users`: Retrieve all users.
+- `GET /get_user/`: Retrieve all attributes from a specific user.
+- `GET /get_history`: Retrieve all texts submitted to analyze by an user.
+- `DELETE /delete_user/`: Delete user by id.
 
 ---
 ### Project Dependencies
@@ -50,6 +53,8 @@ In this project, we have developed an application for sentiment analysis alongsi
 - `fastapi`: Build an API fast.
 - `uvicorn`: To web server implementation. 
 - `sqlite3`: To data storage.
+- `hashlib`: To create a password hash.
+- `random`: To generate a password random seed.
 
 We are using the `CPU` library version to install a clean version of the pytorch library. Adding the following config to poetry makes it possible to use the `CPU` version.
 

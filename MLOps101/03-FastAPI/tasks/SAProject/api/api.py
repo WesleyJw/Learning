@@ -7,7 +7,7 @@ from model import User, UserList, Text, Prediction, History
 from database import db_connection, database_initialization
 from app.sa_app import prediction
 from authentication import user_auth
-from api_tools import user_creation, get_user, history_insert, get_history
+from sql_queries import user_creation, get_user, history_insert, get_history
 
 # Function to get the token from the Authorization header
 def get_token(request: Request):
