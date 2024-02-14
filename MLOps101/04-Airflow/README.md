@@ -74,14 +74,30 @@ airflow tasks test hello_world echo_message 2021-07-01
 
 ![Airflow](./img/airflow_architecture.png "Airflow Architecture")
 
-## Definitions
+### Scheduler/Executor
 
-Workloads or Workloads
+Monitors all DAGs and Tasks and Launches the command to execution when the dependencies are complete. According to Airflow documentation, the scheduler monitors the DAG directory and stays in sync with all DAGs. To perform this, the scheduler creates a subprocess.
 
-A **DAG** consists of tasks that can be of three types.
+![Airflow Scheduler](./img/scheduler_airflow.png "Airflow Scheduler")
+
+
+### Web Interface/Server
+
+This permits an easy integration with Airflow Dags. We Can see the state, take durations, and more in the interface.
+
+### Database
+
+Stores details about DAGs, Xcoms, executions and more.
+
+
+### DAGs
+
+A **DAG** (Directly acyclic graph) consists of tasks that can be of three types.
 - Operators are predefined tasks that are grouped from the execution of the DAG.
 - Sensors are a particular subclass of Operators that work by waiting for an external event to occur.
 - Taskflow is a custom Python function packaged as a Task.
+
+![Airflow dag](./img/airflow_dag.png "Airflow Dag")
 
 More about DAGs - Airflow Core.
 - Gathers tasks together.
