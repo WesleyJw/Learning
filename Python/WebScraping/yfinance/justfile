@@ -1,0 +1,4 @@
+shell:
+    poetry shell
+execute:
+    poetry run python cripto_download.py

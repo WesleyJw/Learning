@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "data-study"
+version = "0.0.1"
+description = "This is a package to my personal study projets. This projects are: machine learning, spark, data engeneering, statistics, developing and others."
+authors = ["WesleyJW"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.2.3"
+yfinance = "^0.2.50"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
