@@ -33,6 +33,14 @@ optional = false
 python-versions = ">=3.7.0"
 
 [[package]]
+name = "et-xmlfile"
+version = "2.0.0"
+description = "An implementation of lxml.xmlfile for the standard library"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
 name = "frozendict"
 version = "2.4.6"
 description = "A simple immutable dictionary"
@@ -99,6 +107,17 @@ description = "Fundamental package for array computing in Python"
 category = "main"
 optional = false
 python-versions = ">=3.10"
+
+[[package]]
+name = "openpyxl"
+version = "3.1.5"
+description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+et-xmlfile = "*"
 
 [[package]]
 name = "pandas"
@@ -275,18 +294,20 @@ repair = ["scipy (>=1.6.3)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "21fe2f155ae7f2bebedb74303f9f6579bdd0a791478ee0cc2ab696fe6648d15b"
+content-hash = "fbf9c30e57d0228c161a1956af5a225fd8368dadd6ea9efcb903bcd28ddeb2eb"
 
 [metadata.files]
 beautifulsoup4 = []
 certifi = []
 charset-normalizer = []
+et-xmlfile = []
 frozendict = []
 html5lib = []
 idna = []
 lxml = []
 multitasking = []
 numpy = []
+openpyxl = []
 pandas = []
 peewee = []
 platformdirs = []
