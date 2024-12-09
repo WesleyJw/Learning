@@ -8,6 +8,7 @@ authors = ["WesleyJW"]
 python = "^3.10"
 pandas = "^2.2.3"
 yfinance = "^0.2.50"
+openpyxl = "^3.1.5"
 
 [tool.poetry.dev-dependencies]
 

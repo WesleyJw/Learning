@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "GENAI"
+version = "0.1.0"
+description = "Create an app to get data from an Magalu store and find the client satisfation in comment made by google location."
+authors = ["WesleyJw <jwesleybiologo@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+google-generativeai = "^0.8.3"
+pandas = "^2.2.3"
+python-dotenv = "^1.0.1"
+ipykernel = "^6.29.5"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
