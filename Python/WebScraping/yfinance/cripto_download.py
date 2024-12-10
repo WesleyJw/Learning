@@ -19,8 +19,19 @@ end_date = "2024-12-03"
 
 # Get data
 
-df = yf.download(Tickets, start=start_date, end=end_date)
+data = pd.DataFrame()
+for Ticket in Tickets:
+    print(f"Processing data for ticket: {Ticket}")
+    df = yf.download(Ticket, start=start_date, end=end_date)
+    df.columns = df.columns.get_level_values('Price')
+    df = df.reset_index()
+    df["Ticket"] = Ticket
+    
+    data = pd.concat([data, df])
 
-print(df.head())
-print(df.tail())
-print(df.shape)
+data.to_csv("criptocurrencies_history_data.csv", index=False)
+
+
+print(data.head())
+print(data.tail())
+print(data.shape)
