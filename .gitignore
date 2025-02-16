@@ -3,3 +3,5 @@
 *:Zone.Identifier
 *.env
 GENAI/dados_magalu.xlsx
+
+__pycache__/

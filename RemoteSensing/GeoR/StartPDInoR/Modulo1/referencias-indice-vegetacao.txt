@@ -1,0 +1,14 @@
+Trouxemos algumas referências de aplicações de índices de vegetação para vocês consultarem: 
+
+DINIZ, J. M. F. S., MACIEL, D. A., GAMA, F. F., & ADAMI, M. Avaliação do Sentinel-2, NDVI e MLME para Mapeamento do Uso e Cobertura da Terra. Anuário do Instituto de Geociências, 43(2), 381-391.
+
+REIS, A. A.; CARVALHO, M. C.; MELLO, J. M.; GOMIDE, L. R.; FERRAZ FILHO, A. C.; ACERBI JUNIOR, F. W. Spatial prediction of basal area and volume in Eucalyptus stands using Landsat TM data: an assessment of prediction methods. New Zealand Journal of Forestry Science. v, 48, n.1, p. 1-17, 2018. https://nzjforestryscience.springeropen.com/articles/10.1186/s40490-017-0108-0
+
+SILVA, V. S. et al. Methodological evaluation of vegetation indexes in land use and land cover (LULC) classification. Geology, Ecology and Landscapes, v. 4, n. 2, p. 159-169, 2020. https://www.tandfonline.com/doi/full/10.1080/24749508.2019.1608409?scroll=top&needAccess=true
+
+TEILLET, P.; STAENZ, K.; WILLIAM, D. Effects of spectral, spatial, and radiometric characteristics on remote sensing vegetation indices of forested regions. Remote Sensing of Enviroment, v.61, p.139-149, 1997. https://www.sciencedirect.com/science/article/abs/pii/S0034425796002489
+
+MACIEL, D.A, SILVA, V. A, ALVES, HMR, VOLPATO, MML, BARBOSA, JPRAd, SOUZA, VCOd, et al. (2020). Leaf water potential of coffee estimated by landsat-8 images. PLoS ONE 15(3): e0230013. https://doi.org/10.1371/journal.pone.0230013
+
+
+Coloquem outras referências aqui nos comentários para compartilharmos conhecimento! 

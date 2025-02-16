@@ -1,0 +1,12 @@
+# Fonte de Dados
+
+#
+
+site: https://ers.cr.usgs.gov/login?redirectUrl=https://ers.cr.usgs.gov/
+siteDados: https://earthexplorer.usgs.gov/
+login: WesleyJw
+password: JwlsD|le2104
+
+site: https://scihub.copernicus.eu/dhus/#/home
+login: WesleyJw
+password: JwlsD|le2104

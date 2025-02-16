@@ -1,0 +1,16 @@
+# Fonte de Dados
+
+#
+
+# USGS: vários satelites
+site: https://ers.cr.usgs.gov/login?redirectUrl=https://ers.cr.usgs.gov/
+siteDados: https://earthexplorer.usgs.gov/
+login: WesleyJw
+password: JwlsD|le2104
+
+# Copernicus: só sentinel
+site: https://scihub.copernicus.eu/dhus/#/home
+login: WesleyJw
+password: JwlsDile2104
+obs: Usar: Mission sentinel-2
+obs: Product type: S2MSI2A -> Imagem de reflectancia de luz

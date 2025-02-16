@@ -1,0 +1,27 @@
+{
+    "id": "5D785E6D",
+    "path": "~/MEGAsync/CursosPagos/SensoriamentoRemoto/StartPDInoR/SpatialAnalysisInR/ScriptsCurso/predicao_area_total.R",
+    "project_path": "ScriptsCurso/predicao_area_total.R",
+    "type": "r_source",
+    "hash": "687764017",
+    "contents": "",
+    "dirty": false,
+    "created": 1654274996985.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "42,0",
+        "scrollLine": "32"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1654277858,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1654277858460,
+    "read_only": false,
+    "read_only_alternatives": []
+}
